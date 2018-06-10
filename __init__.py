@@ -23,6 +23,7 @@ if __name__ == '__main__':
         print("1 - Votar")
         print("2 - Contabilizar")
         print("3 - Fechar urna")
+        print("9 - Print hashs")
         print("0 - Sair")
         op = input()
         if op == "1":
@@ -39,11 +40,11 @@ if __name__ == '__main__':
                 total_c3 += 1
             print("Voto salvo com sucesso!")
         elif op == "2":
-            if blocks.__len__() == 1:
+            if genesis.get_data().__len__() == 0:
                 genesis.set_data(json.dumps({"c1": total_c1, "c2": total_c2, "c3": total_c3}))
-            new_block = Block(blocks.__getitem__(blocks.__len__() - 1))
-            new_block.set_data(json.dumps({"c1": total_c1, "c2": total_c2, "c3": total_c3}))
-            if is_chain_valid():
+            else:
+                new_block = Block(blocks.__getitem__(blocks.__len__() - 1).get_hash())
+                new_block.set_data(json.dumps({"c1": total_c1, "c2": total_c2, "c3": total_c3}))
                 blocks.append(new_block)
         elif op == "3":
             if is_chain_valid():
@@ -60,5 +61,8 @@ if __name__ == '__main__':
                 print(f"Total do candidato 3: {t3}")
             else:
                 print("Blockchain e invalida!")
+        elif op == "9":
+            for block in blocks:
+                print(f"Hash atual: {block.get_hash()} -> Hash anterior: {block.get_previous_hash()}")
         elif op == "0":
             exit(0)
