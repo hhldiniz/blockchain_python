@@ -6,10 +6,12 @@ from Block import Block
 
 
 def is_chain_valid():
-    for i, b in enumerate(blocks):
-        if b.get_hash() != 0:
-            if b.get_previous_hash() != blocks[i-1].get_hash():
+    if blocks.__len__() != 1:
+        count = 1
+        while count < blocks.__len__():
+            if blocks[count].get_previous_hash() != blocks[count-1].get_hash():
                 return False
+            count += 1
     return True
 
 
@@ -46,6 +48,9 @@ if __name__ == '__main__':
                 new_block = Block(blocks.__getitem__(blocks.__len__() - 1).get_hash())
                 new_block.set_data(json.dumps({"c1": total_c1, "c2": total_c2, "c3": total_c3}))
                 blocks.append(new_block)
+                total_c1 = 0
+                total_c2 = 0
+                total_c3 = 0
         elif op == "3":
             if is_chain_valid():
                 t1 = 0
