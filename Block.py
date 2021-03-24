@@ -2,7 +2,6 @@ import datetime
 import hashlib
 import json
 
-
 class Block:
     def __init__(self, previous_hash):
         self.__previous_hash = previous_hash
