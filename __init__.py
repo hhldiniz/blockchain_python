@@ -2,6 +2,19 @@
 import json
 from Block import Block
   
+total_votes = [0,0,0]
+
+def set_total_votes(candidate):
+    global total_votes
+    total_votes[candidate] += 1
+    
+def clean_votes():
+    global total_votes
+    total_votes = [0,0,0]
+    
+def get_votes_from(candidate):
+    return total_votes[candidate]
+
 def is_chain_valid():
     if blocks.__len__() != 1:
         count = 1
@@ -11,7 +24,7 @@ def is_chain_valid():
             count += 1
     return True
 
-def vote(total_votes):
+def vote():
     print("Select the candidate")
     print("1 - Jonh")
     print("2 - Joseph")
@@ -19,25 +32,22 @@ def vote(total_votes):
     
     c = int(input())
     if c == 1:
-        total_votes[0] += 1
+        set_total_votes(0)
     elif c == 2:
-        total_votes[1] += 1
+        set_total_votes(1)
     else:
-        total_votes[2] += 1
+        set_total_votes(2)
         
     print("Vote computed!")
-    return total_votes
     
-def count(total_votes):
+def count():
     if genesis.get_data().__len__() == 0:
-        genesis.set_data(json.dumps({"c1": total_votes[0], "c2": total_votes[1], "c3": total_votes[2]}))
+        genesis.set_data(json.dumps({"c1": get_votes_from(0), "c2": get_votes_from(1), "c3": get_votes_from(2)}))
     else:
         new_block = Block(blocks.__getitem__(blocks.__len__() - 1).get_hash())
-        new_block.set_data(json.dumps({"c1": total_votes[0], "c2": total_votes[1], "c3": total_votes[2]}))
+        new_block.set_data(json.dumps({"c1": get_votes_from(0), "c2": get_votes_from(1), "c3": get_votes_from(2)}))
         blocks.append(new_block)
-        total_votes = [0,0,0]
-        
-    return total_votes
+        clean_votes()
  
 def close():
     if is_chain_valid():
@@ -60,8 +70,6 @@ def print_hashes():
         print(f"Actual Hash : {block.get_hash()} -> Previous Hash: {block.get_previous_hash()}")   
         
 def menu():
-    total_votes = [0,0,0]
-     
     while True:
         print("1 - Vote")
         print("2 - Count")
@@ -70,9 +78,9 @@ def menu():
         print("0 - Exit")
         op = input()
         if op == "1":
-            total_votes = vote(total_votes)
+            vote()
         elif op == "2":
-            total_votes = count(total_votes)
+            count()
         elif op == "3":
             close()
         elif op == "9":
