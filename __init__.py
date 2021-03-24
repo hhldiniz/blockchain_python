@@ -68,28 +68,37 @@ def close():
 def print_hashes():
     for block in blocks:
         print(f"Actual Hash : {block.get_hash()} -> Previous Hash: {block.get_previous_hash()}")   
-        
-def menu():
+  
+def terminate():
+    exit(0)   
+    
+def invalid_option():
+    print("Invalid Option")   
+    
+def show_options():
+    print("1 - Vote")
+    print("2 - Count")
+    print("3 - Close")
+    print("9 - Print hashes")
+    print("0 - Exit")    
+     
+def switch_menu():
     while True:
-        print("1 - Vote")
-        print("2 - Count")
-        print("3 - Close")
-        print("9 - Print hashes")
-        print("0 - Exit")
+        show_options()
         op = input()
-        if op == "1":
-            vote()
-        elif op == "2":
-            count()
-        elif op == "3":
-            close()
-        elif op == "9":
-            print_hashes()
-        elif op == "0":
-            exit(0)
+        
+        switcher = {
+            "1": vote,
+            "2": count,
+            "3": close,
+            "9": print_hashes,
+            "0": terminate
+        }  
+        
+        switcher.get(op, invalid_option)()
 
 if __name__ == '__main__':
     genesis = Block(0)
     blocks = [genesis]
-    menu()
+    switch_menu()
     
