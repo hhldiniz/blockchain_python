@@ -1,22 +1,12 @@
 #### About
-  Application built with python that performs blockchain.
-  
+  Application built with python that performs a election using blockchain.
 #### Technologies
   The application is built with:
-  * Python
-
+  * Python 3.6.5
 #### Dependencies
-  * 
-  * 
-  * 
-#### Setup
-  * Install dependencies
-  ```bash
-  $ 
-  ```
-
+  * Make sure Python 3.6+ is installed
 #### Test
-
-#### Using
-
-#### Deploy
+ * Run
+  ```bash
+  $ python _init__.py
+  ```
